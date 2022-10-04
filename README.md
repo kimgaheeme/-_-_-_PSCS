@@ -12,4 +12,4 @@
 ### 자료구조
 - [heap]
 
-[heap]: http://www.google.com  
+[heap]: DataStructure/Heap.kt
