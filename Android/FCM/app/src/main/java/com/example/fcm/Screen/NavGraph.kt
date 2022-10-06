@@ -29,7 +29,8 @@ fun NavGraphBuilder.screen1Graph(navController: NavController) {
         screen2Graph(navController)
     }
     composable(
-        route = "${Screen.SCREEN_WITH_ID}/{${Id.ID}}"
+        route = "${Screen.SCREEN_WITH_ID}/{${Id.ID}}",
+        deepLinks = listOf(navDeepLink { uriPattern = "https://fcm/{${Id.ID}}" })
     ) { backStackEntry ->
         ScreenId(navController = navController, id = backStackEntry.arguments!!.getString("id")!!)
     }
