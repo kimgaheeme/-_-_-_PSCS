@@ -2,5 +2,5 @@
     <string name="app_name">FCM</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="default_notification_channel_id2" translatable="false">2fcm_default_channel</string>
 </resources>
