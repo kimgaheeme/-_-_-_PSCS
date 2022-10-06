@@ -47,7 +47,7 @@ class FCM : FirebaseMessagingService() {
 
         val taskDetailIntent = Intent(
             Intent.ACTION_VIEW,
-            ("https://fcm/"+"1236478").toUri(),
+            ("https://fcm/"+messageBody["id"]).toUri(),
             this,
             MainActivity::class.java
         )
