@@ -1,34 +1,44 @@
-
 class Solution {
-    private fun Array<String>.swap(i: Int, j: Int) {
-        val temp = this[j]
-        this[j] = this[i]
-        this[i] = temp
-    }
-
     fun solution(user_id: Array<String>, banned_id: Array<String>): Int {
-        val cand = mutableSetOf<MutableSet<String>>()
-        fun perm(depth: Int, n: Int, k: Int) {
-            if (depth == k) {
-                val tempSet = mutableSetOf<String>()
-                outer@for (i in banned_id.indices) {
-                    if (user_id[i].length != banned_id[i].length) continue
-                    for (j in user_id[i].indices) {
-                        if (banned_id[i][j] != '*' && user_id[i][j] != banned_id[i][j]) continue@outer
-                    }
-                    tempSet.add(user_id[i])
-                }
-                if (tempSet.size == k) cand.add(tempSet)
-                return
-            } else {
-                for (i in depth until n) {
-                    user_id.swap(depth, i)
-                    perm(depth + 1, n, k)
-                    user_id.swap(depth, i)
-                }
+        var answer = 0
+        
+				//candidate : 각각의 banned_id가 될 수 있는 값들의 후보
+        var candidate = ArrayList<ArrayList<String>>()
+				
+				//후보를 찾는다.O(n^2) 
+        banned_id.forEach { it ->
+            val r = it.replace("*",".").toRegex()
+            val e = ArrayList<String>()
+            user_id.forEach { u ->
+                if(u.matches(r)) e.add(u)
             }
+            candidate.add(e)
         }
-        perm(0, user_id.size, banned_id.size)
-        return cand.size
+
+				//answerSet = 정답으로 이루어진 Set
+        var answerSet = mutableSetOf<Set<String>>()
+
+				//첫번째의 경우는 그냥 넣어준다.
+        candidate[0].forEach { o -> answerSet.add(setOf(o)) }
+        
+
+		//합집합을 만들어서 정답Set을 만들어준다.
+		//O(N^2)??
+        repeat(candidate.size - 1) { idx ->
+            var answerSet1 = answerSet
+                    .flatMap { o ->
+                        candidate[idx + 1].map {c -> 
+                            o.union(setOf(c))
+                        }
+                    }.filter{it.size == idx + 2}.toMutableSet()
+            answerSet = answerSet1
+        }
+        
+				//만약 크기가 bannedId와 같지않다면 정답이 될 수 없다.
+        answerSet.forEach {
+            if(it.size == candidate.size) answer++
+        }
+
+        return answer
     }
 }
