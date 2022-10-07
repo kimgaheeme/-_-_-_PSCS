@@ -22,14 +22,14 @@ class Solution {
     
     fun dfs(currentList: List<String>, depth: Int) {
     
-    if(depth == candidate.size) {
-        answerSet.add(currentList.toSet())
-        return
+        if(depth == candidate.size) {
+            answerSet.add(currentList.toSet())
+            return
+        }
+
+        candidate[depth].forEach { 
+            if(!currentList.contains(it)) dfs(currentList + it, depth+1)
+        }
     }
-    
-    candidate[depth].forEach { 
-        if(!currentList.contains(it)) dfs(currentList + it, depth+1)
-    }
-}
 }
 
