@@ -3,24 +3,29 @@ class Solution {
     var answerSet = mutableSetOf<Set<String>>()
     var candidate = ArrayList<ArrayList<String>>()
     
-    fun solution(user_id: Array<String>, banned_id: Array<String>): Int {		
+    fun solution(user_id: Array<String>, banned_id: Array<String>): Int {
+        
+        val begin = System.nanoTime()
 		//후보를 찾는다.O(n^2)
 		//정규표현식 사용
         banned_id.forEach { it ->
-            val r = it.replace("*",".").toRegex()
             val e = ArrayList<String>()
             user_id.forEach { u ->
-                if(u.matches(r)) e.add(u)
+                if(isMatch(it, u)) e.add(u)
             }
             candidate.add(e)
         }
         
-        dfs(listOf<String>(), 0)
+        val end = System.nanoTime()
+        println(end - begin)
         
+        dfs(listOf<String>(), 0)
+        val end2 = System.nanoTime()
+        println(end2 - end)
         return answerSet.size
     }
     
-    tailrec fun dfs(currentList: List<String>, depth: Int) {
+    fun dfs(currentList: List<String>, depth: Int) {
     
         if(depth == candidate.size) {
             answerSet.add(currentList.toSet())
@@ -31,4 +36,14 @@ class Solution {
             if(!currentList.contains(it)) dfs(currentList + it, depth+1)
         }
     }
+    
+}
+
+fun isMatch(star: String, s2: String): Boolean {
+    if(star.length != s2.length) return false
+    
+    star.forEachIndexed { idx, it ->
+        if(it != '*' && it != s2[idx] ) return false
+    }
+    return true
 }
