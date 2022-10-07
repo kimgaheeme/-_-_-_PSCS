@@ -1,35 +1,60 @@
 class Solution {
-    
-    var answerSet = mutableSetOf<Set<String>>()
-    var candidate = ArrayList<ArrayList<String>>()
-    
-    fun solution(user_id: Array<String>, banned_id: Array<String>): Int {		
-		//후보를 찾는다.O(n^2)
-		//정규표현식 사용
-        banned_id.forEach { it ->
-            val r = it.replace("*",".").toRegex()
-            val e = ArrayList<String>()
-            user_id.forEach { u ->
-                if(u.matches(r)) e.add(u)
+
+   fun solution(userIds: Array<String>, bannedIds: Array<String>): Int {
+      val backtrackHashes = mutableSetOf<Int>()
+      val matchResults = Array(userIds.size) { BooleanArray(bannedIds.size) }
+
+      fun backtrack(level: Int, success: Int, visitFlag: Int): Int {
+         if (level >= bannedIds.size) {
+            return if (success == bannedIds.size && visitFlag !in backtrackHashes) {
+               backtrackHashes += visitFlag
+               1
+            } else {
+               0
             }
-            candidate.add(e)
-        }
-        
-        dfs(listOf<String>(), 0)
-        
-        return answerSet.size
-    }
-    
-    fun dfs(currentList: List<String>, depth: Int) {
-    
-        if(depth == candidate.size) {
-            answerSet.add(currentList.toSet())
-            return
-        }
+         }
 
-        candidate[depth].forEach { 
-            if(!currentList.contains(it)) dfs(currentList + it, depth+1)
-        }
-    }
+         tailrec fun loop(index: Int, acc: Int): Int {
+            if (index >= userIds.size) {
+               return acc
+            }
+            val mask = 1 shl index
+            val child = if (visitFlag and mask == 0 && matchResults[index][level]) {
+               backtrack(level + 1, success + 1, visitFlag or mask)
+            } else {
+               0
+            }
+            return loop(index + 1, acc + child)
+         }
+
+         return loop(0, 0)
+      }
+
+      for ((rowIndex, userId) in userIds.withIndex()) {
+         for ((colIndex, bannedId) in bannedIds.withIndex()) {
+            matchResults[rowIndex][colIndex] = matches(userId, bannedId)
+         }
+      }
+
+      return backtrack(0, 0, 0)
+   }
+
+
+   fun matches(userId: String, bannedId: String): Boolean {
+      if (userId.length != bannedId.length) {
+         return false
+      }
+
+      tailrec fun matchesImpl(index: Int): Boolean {
+         if (index >= userId.length) {
+            return index >= bannedId.length
+         }
+         if (bannedId[index] != '*' && userId[index] != bannedId[index]) {
+            return false
+         }
+         return matchesImpl(index + 1)
+      }
+
+      return matchesImpl(0)
+   }
 }
-
