@@ -1,33 +1,35 @@
 class Solution {
-    private fun Array<String>.swap(i: Int, j: Int) {
-        val temp = this[j]
-        this[j] = this[i]
-        this[i] = temp
-    }
-
-    fun solution(user_id: Array<String>, banned_id: Array<String>): Int {
-        val cand = mutableSetOf<MutableSet<String>>()
-        fun perm(depth: Int, n: Int, k: Int) {
-            if (depth == k) {
-                val tempSet = mutableSetOf<String>()
-                outer@for (i in banned_id.indices) {
-                    if (user_id[i].length != banned_id[i].length) continue
-                    for (j in user_id[i].indices) {
-                        if (banned_id[i][j] != '*' && user_id[i][j] != banned_id[i][j]) continue@outer
-                    }
-                    tempSet.add(user_id[i])
-                }
-                if (tempSet.size == k) cand.add(tempSet)
-                return
-            } else {
-                for (i in depth until n) {
-                    user_id.swap(depth, i)
-                    perm(depth + 1, n, k)
-                    user_id.swap(depth, i)
-                }
+    
+    var answerSet = mutableSetOf<Set<String>>()
+    var candidate = ArrayList<ArrayList<String>>()
+    
+    fun solution(user_id: Array<String>, banned_id: Array<String>): Int {		
+		//후보를 찾는다.O(n^2)
+		//정규표현식 사용
+        banned_id.forEach { it ->
+            val r = it.replace("*",".").toRegex()
+            val e = ArrayList<String>()
+            user_id.forEach { u ->
+                if(u.matches(r)) e.add(u)
             }
+            candidate.add(e)
         }
-        perm(0, user_id.size, banned_id.size)
-        return cand.size
+        
+        dfs(listOf<String>(), 0)
+        
+        return answerSet.size
+    }
+    
+    fun dfs(currentList: List<String>, depth: Int) {
+    
+    if(depth == candidate.size) {
+        answerSet.add(currentList.toSet())
+        return
+    }
+    
+    candidate[depth].forEach { 
+        if(!currentList.contains(it)) dfs(currentList + it, depth+1)
     }
 }
+}
+
