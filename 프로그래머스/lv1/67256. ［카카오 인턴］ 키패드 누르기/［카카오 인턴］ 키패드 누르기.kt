@@ -10,12 +10,14 @@ class Solution {
             when(it) {
                 in listOf(1, 4, 7) -> {
                     append("L")
-                    left = left.copy(row = it / 3, column = 0)
+                    left.row = it / 3
+                    left.column = 0
                 }
                 //3,6,9
                 in listOf(3, 6, 9) -> {
                     append("R")
-                    right = left.copy(row = it / 3 - 1, column = 2)
+                    right.row = it / 3 -1
+                    right.column = 2
                 }
                 //2, 5, 8, 0
                 in listOf(2, 5, 8, 0) -> {
@@ -27,26 +29,24 @@ class Solution {
                     var rlen = abs(1 - right.column) + abs(num / 3 - right.row) 
                     var llen = abs(1 - left.column) + abs(num / 3 - left.row)
                     
-                  
-                    
                     if(rlen > llen || ((rlen == llen) && hand == "left"))  {
                         append("L")
-                        left = left.copy(row = num / 3, column = 1)
+                        left.row = num / 3
+                        left.column = 1
                     } else {
                         append("R")
-                        right = right.copy(row = num / 3, column = 1)
+                        right.row = num / 3
+                        right.column = 1
                     }
                 }
                 
             }
         }
         
-        println(left.row)
-        
     }.toString()
 }
 
 data class location(
-    val row: Int = 3,
-    val column: Int = 2
+    var row: Int = 3,
+    var column: Int = 2
 )
