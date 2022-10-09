@@ -2,22 +2,20 @@ import kotlin.math.*
 
 class Solution {
     fun solution(numbers: IntArray, hand: String) = StringBuilder().apply {
-        var left = location()
-        var right = location()
+        var left = Pair(3,2)
+        var right = Pair(3,2)
         
         
         numbers.forEach { it ->
             when(it) {
                 in listOf(1, 4, 7) -> {
                     append("L")
-                    left.row = it / 3
-                    left.column = 0
+                    left = Pair(it / 3, 0)
                 }
                 //3,6,9
                 in listOf(3, 6, 9) -> {
                     append("R")
-                    right.row = it / 3 -1
-                    right.column = 2
+                    right = Pair(it / 3 - 1, 2)
                 }
                 //2, 5, 8, 0
                 in listOf(2, 5, 8, 0) -> {
@@ -26,17 +24,15 @@ class Solution {
                     else num = it
                     
                     //거리구하기
-                    var rlen = abs(1 - right.column) + abs(num / 3 - right.row) 
-                    var llen = abs(1 - left.column) + abs(num / 3 - left.row)
+                    var rlen = abs(1 - right.second) + abs(num / 3 - right.first) 
+                    var llen = abs(1 - left.second) + abs(num / 3 - left.first)
                     
                     if(rlen > llen || ((rlen == llen) && hand == "left"))  {
                         append("L")
-                        left.row = num / 3
-                        left.column = 1
+                        left = Pair(num / 3, 1)
                     } else {
                         append("R")
-                        right.row = num / 3
-                        right.column = 1
+                        right = Pair(num / 3, 1)
                     }
                 }
                 
@@ -46,7 +42,3 @@ class Solution {
     }.toString()
 }
 
-data class location(
-    var row: Int = 3,
-    var column: Int = 2
-)
