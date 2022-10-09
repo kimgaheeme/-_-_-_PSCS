@@ -5,34 +5,35 @@ class Solution {
         var left = Pair(3,2)
         var right = Pair(3,2)
         
+        var gesture = mutableListOf<Pair<Int,Int>>()
+        numbers.forEach { 
+            if(it == 0) gesture.add(Pair(3,1))
+            else gesture.add(Pair((it - 1) / 3, (it - 1) % 3))
+        }
         
-        numbers.forEach { it ->
-            when(it) {
-                in listOf(1, 4, 7) -> {
+        
+        gesture.forEach { it ->
+            when(it.second) {
+                0 -> {
                     append("L")
-                    left = Pair(it / 3, 0)
+                    left = it
                 }
-                //3,6,9
-                in listOf(3, 6, 9) -> {
+                2 -> {
                     append("R")
-                    right = Pair(it / 3 - 1, 2)
+                    right = it
                 }
-                //2, 5, 8, 0
-                in listOf(2, 5, 8, 0) -> {
-                    var num: Int
-                    if(it == 0) num = 11
-                    else num = it
+                1 -> {
                     
                     //거리구하기
-                    var rlen = abs(1 - right.second) + abs(num / 3 - right.first) 
-                    var llen = abs(1 - left.second) + abs(num / 3 - left.first)
+                    var rlen = abs(1 - right.second) + abs(it.first - right.first) 
+                    var llen = abs(1 - left.second) + abs(it.first - left.first)
                     
                     if(rlen > llen || ((rlen == llen) && hand == "left"))  {
                         append("L")
-                        left = Pair(num / 3, 1)
+                        left = it
                     } else {
                         append("R")
-                        right = Pair(num / 3, 1)
+                        right = it
                     }
                 }
                 
