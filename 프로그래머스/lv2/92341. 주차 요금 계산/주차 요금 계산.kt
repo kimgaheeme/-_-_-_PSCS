@@ -1,18 +1,17 @@
 import kotlin.math.*
 class Solution {
     fun solution(fees: IntArray, records: Array<String>): List<Int> {
-        var answer: IntArray = intArrayOf()
         
         var record = mutableMapOf<String, MutableList<String>>()
         
-        //records split
+        //records split -> O(N)
         records.forEach {
             var l = it.split(" ")
             if(record.containsKey(l[1])) record[l[1]]!!.add(l[0])
             else record[l[1]] = mutableListOf(l[0])           
         }
         
-        //시간 계산하기
+        //시간 계산하기 forEach, repeat이긴 한데 실질적으로는 -> O(N)
         var time = record.map {
             var sum: Int = 0
             if(it.value.size % 2 == 1) it.value.add("23:59")
@@ -22,20 +21,15 @@ class Solution {
             it.key to sum
         }.toMap()
         
-        //요금 계산하기
+        //요금 계산하기(O(N))
         var money = time.map {
             it.key to getPrice(it.value, fees)
-        }.toMap()
+        }
 
-        return money.toList().sortedBy{it.first}.toMap().values.toList()
+        
+        return money.sortedBy{it.first}.map{it.second}
     }
 }
-
-data class CarRecord (
-    var time: String,
-    var carNum: String,
-    var isIn: Boolean = false   
-)
 
 fun getTimeGap(n1: String, n2: String): Int {
     var s1 = n1.split(":")
