@@ -1,10 +1,10 @@
 # [level 3] 징검다리 건너기 - 64062 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64062) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64062#qna) 
 
 ### 성능 요약
 
-메모리: 72.6 MB, 시간: 47.04 ms
+메모리: 76 MB, 시간: 49.18 ms
 
 ### 구분
 

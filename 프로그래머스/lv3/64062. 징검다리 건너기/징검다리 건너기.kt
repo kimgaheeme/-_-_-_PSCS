@@ -1,41 +1,46 @@
 class Solution {
     fun solution(stones: IntArray, k: Int): Int {
-        var max = stones.maxOrNull()
-        var min = stones.minOrNull()
-        var center = (min!! + max!!) / 2
         
-        
-        while(min != center) {
-            if(hasZeroPart(stones, k, center)) {
-                max = center
-            }else {
-                min = center
-            }
-            center = (min!! + max!!) / 2
+        var Des = 0
+        var Ase = 0
+        var j = 1
+        while (j < stones.size) {
+            if(stones[j] < stones[j - 1]) Des++
+            else Ase++
+            j++
         }
         
-        if(hasZeroPart(stones, k, min)) return min!!
-        return max!!
-    }
-}
-
-fun hasZeroPart(stones: IntArray, k: Int, num: Int): Boolean {
-    var sum: Long = 0L
-    repeat(k) {
-            var back = if(stones[it] - num < 0) 0 else stones[it] - num
-            sum += back
+        var stone = stones.toList()
+        if(Des > Ase) {stone = stone.asReversed()}
+        
+        
+        
+        
+        var nowMaxNum = 0
+        var answer = 0
+        var count = 0
+        
+        repeat(k) {
+            if(stone[it] > nowMaxNum) {nowMaxNum = stone[it]; count = 1}
+            else if(stone[it] == nowMaxNum) {count++}
         }
-
-        if(sum == 0L) return true
+        
+        answer = nowMaxNum
         
         var i = k
-        while(stones.size > i) {
-            var front = if(stones[i - k] - num < 0) 0 else stones[i - k] - num
-            var back = if(stones[i] - num < 0) 0 else stones[i] - num
-            sum = sum - front + back
-            if(sum == 0L) return true
+        while(i < stone.size) {
+            if(stone[i] > nowMaxNum) {nowMaxNum = stone[i]; count = 1}
+            else if(stone[i] == nowMaxNum) {count++}
+            
+            if(stone[i - k] == nowMaxNum) {count--}
+            if(count == 0) {
+                nowMaxNum = stone.subList(i - k + 1,i + 1).maxOrNull()!!
+                count = 1
+                if(nowMaxNum < answer) answer = nowMaxNum
+            }
             i++
         }
-                    
-    return false
+        
+        return answer
+    }
 }
