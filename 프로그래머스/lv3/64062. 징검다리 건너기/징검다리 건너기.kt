@@ -1,6 +1,12 @@
 class Solution {
     fun solution(stones: IntArray, k: Int): Int {
-        var answer = stones.maxOrNull()!!
+        
+        var m = stones.maxOrNull()!!
+        var answer = m
+        
+        if(hasZeroPart(stones, k, m / 2)) answer = m / 2
+    
+        
         val len = stones.size
         
         var Des = 0
@@ -12,6 +18,7 @@ class Solution {
         
         var stone = stones.toList()
         if(Des > (stones.size - Des - 1)) stone = stone.asReversed()
+        
         
         //현재 위치
         var now = -1
@@ -44,4 +51,25 @@ class Solution {
         }
         return answer
     }
+}
+
+fun hasZeroPart(stones: IntArray, k: Int, num: Int): Boolean {
+    var sum: Long = 0L
+    repeat(k) {
+            var back = if(stones[it] - num < 0) 0 else stones[it] - num
+            sum += back
+        }
+
+        if(sum == 0L) return true
+        
+        var i = k
+        while(stones.size > i) {
+            var front = if(stones[i - k] - num < 0) 0 else stones[i - k] - num
+            var back = if(stones[i] - num < 0) 0 else stones[i] - num
+            sum = sum - front + back
+            if(sum == 0L) return true
+            i++
+        }
+                    
+    return false
 }
