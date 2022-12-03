@@ -1,65 +1,86 @@
-var scoreArray = arrayListOf<Int>()
 class Solution {
-    fun solution(info: Array<String>, query: Array<String>): ArrayList<Int> {
-        var answer = arrayListOf<Int>()
-        var infos = arrayListOf<List<String>>()
-        var m = mutableMapOf<Set<String>, MutableList<Int>>()
-        var m2 = mutableMapOf<Set<String>, List<Int>>()
-        //var scoreArray = arrayListOf<Int>()
-    
-        
-        info.forEachIndexed { index, it ->
-            var arr = it.split(" ")
-            var k = arr.subList(0, 4).toSet()
-            if(m.containsKey(k)) m[k]!!.add(arr[4].toInt())
-            else m.put(k, mutableListOf(arr[4].toInt()))
-        }
-        
-        
-        m.forEach { (key, value) ->
-            m2.put(key, value.sorted())
-        }
-        
-        query.forEachIndexed { index, it ->
-            var arr = it.split(" ")
-            var queryKey = arr.filterIndexed { index, it -> index % 2 == 0 && it != "-"}.toSet()
-            var s = mutableListOf<Int>()
-            var count = 0
-            
-            if(m2.contains(queryKey)) answer.add(binarySearch(m2[queryKey]!!, arr[7].toInt()))
-            else {
-                m.forEach { (key, value) ->
-                    if(key.containsAll(queryKey)) s.addAll(value)
-                }
-                m2.put(queryKey, s.sorted())
-                answer.add(binarySearch(m2[queryKey]!!, arr[7].toInt()))
-            }
+    fun solution(info: Array<String>, query: Array<String>): IntArray {
+        val root = Node()
 
+        for (record in info) {
+            root.addRecord(record.split(" "))
         }
-        
-        
+
+        root.sortScores()
+
+        val answer = IntArray(query.size)
+        for ((index, q) in query.withIndex()) {
+            answer[index] = root.count(q.split(" ").filterNot { it == "and" })
+            // println("#$index: ${answer[index]}")
+        }
         return answer
     }
-    
-    fun binarySearch(arr: List<Int>, target: Int): Int {
-       
-        var low = 0
-        var high = arr.lastIndex
-        var mid = 0;
-        var temp = arr.size
 
-        while (low <= high) {
-            mid = (low + high) / 2
+    class Node {
+        var scores: MutableList<Int>? = null
+        val children: MutableMap<String, Node> = mutableMapOf()
 
-            when {
-                arr[mid] >= target -> {
-                    high = mid - 1
-                    temp = mid
-                }
-                else -> low = mid + 1
+        fun addRecord(record: List<String>, depth: Int = 0) {
+            val key = record[depth]
+            if (depth == 4) {
+                val score = key.toInt()
+
+                if (scores == null)
+                    scores = mutableListOf(score)
+                else
+                    scores!!.add(score)
+            } else {
+                if (children[key] == null)
+                    children[key] = Node()
+
+                children[key]!!.addRecord(record, depth + 1)
             }
         }
-        return arr.size - temp
+
+        fun sortScores(depth: Int = 0) {
+            if (depth == 4) {
+                scores!!.sort()
+            } else {
+                for (child in children.values)
+                    child.sortScores(depth + 1)
+            }
+        }
+
+        fun count(query: List<String>, depth: Int = 0): Int {
+            val key = query[depth]
+            if (depth == 4) {
+                return scores!!.size - lowerBound(key.toInt())
+            } else {
+                var sum = 0
+                if (key == "-") {
+                    for (child in children.values)
+                        sum += child.count(query, depth + 1)
+                } else {
+                    sum += children[key]?.count(query, depth + 1) ?: 0
+                }
+                return sum
+            }
+        }
+
+        private fun lowerBound(least: Int): Int {
+            if (least > scores!!.last()) return scores!!.size
+
+            var top = scores!!.lastIndex
+            var bottom = 0
+            var mid = top
+
+            while (top > bottom) {
+                val mid = (bottom + top) / 2
+                if (mid == top)
+                    return top
+
+                if (scores!![mid] < least) {
+                    bottom = mid + 1
+                } else {
+                    top = mid
+                }
+            }
+            return bottom
+        }
     }
-    
 }
