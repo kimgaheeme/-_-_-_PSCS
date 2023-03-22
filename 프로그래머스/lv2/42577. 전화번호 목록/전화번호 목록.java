@@ -5,7 +5,7 @@ import java.util.Collections;
 class Solution {
     public boolean solution(String[] phone_book) {
 
-        Arrays.sort(phone_book, (a, b) -> b.length() - a.length());
+        Arrays.sort(phone_book, Collections.reverseOrder());
 
         HashSet<String> set = new HashSet<String>();
 
