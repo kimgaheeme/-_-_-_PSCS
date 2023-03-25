@@ -1,10 +1,10 @@
 # [level 2] 위장 - 42578 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42578?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42578) 
 
 ### 성능 요약
 
-메모리: 74.8 MB, 시간: 0.06 ms
+메모리: 62.3 MB, 시간: 0.19 ms
 
 ### 구분
 
