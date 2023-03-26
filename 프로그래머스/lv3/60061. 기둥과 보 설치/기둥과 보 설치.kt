@@ -83,8 +83,6 @@ class Solution {
         if(list[x][y+1][0] == 1 && !canColumn(x, y+1)) return false
         else if(list[x][y+1][1] == 1 && !canBeam(x, y+1, x+1, y+1)) return false
         else if(list[x][y+1][3] == 1 && !canBeam(x-1, y+1, x, y+1)) return false
-        else if(list[x][y][1] == 1 && !canBeam(x, y, x+1, y)) return false
-        else if(list[x][y][3] == 1 && !canBeam(x-1, y, x, y)) return false
         else return true
     }
     
