@@ -6,10 +6,7 @@ public class Solution {
         int count = 0;
         
         for(int i : arr) {
-            if(count == 0) {
-                a.add(i);
-                count++;
-            }else if(a.get(count - 1) != i) {
+            if(count == 0 || a.get(count - 1) != i) {
                 a.add(i);
                 count++;
             }
