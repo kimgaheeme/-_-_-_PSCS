@@ -9,7 +9,8 @@ class Solution {
         var answer = 0
         
         //Linked List 로 queue만들기 (0...n)
-        var queue = LinkedList<Int>((0 until priorities.size).toList())
+        var queue = LinkedList<Int>()
+        repeat(priorities.size){queue.add(it)}
         
         //map만들기
         repeat(9) { map.put(it + 1, 0 ) }
