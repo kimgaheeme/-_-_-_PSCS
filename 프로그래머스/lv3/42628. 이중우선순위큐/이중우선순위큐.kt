@@ -1,7 +1,7 @@
 class Solution {
     fun solution(operations: Array<String>): IntArray {
         var answer = intArrayOf()
-        
+
         operations.forEach {
             when(it[0]) {
                 'I' -> {
@@ -18,12 +18,7 @@ class Solution {
 }
 
 fun deleteMax(arr:IntArray): IntArray = if (arr.size == 1) intArrayOf()
-    else { 
-        val maxValue = arr.maxOrNull()
-        arr.filter {  x -> x != maxValue }.toIntArray()}
+    else { arr.filter {  x -> x != arr.maxOrNull() }.toIntArray()}
 
 fun deleteMin(arr:IntArray): IntArray = if (arr.size == 1) intArrayOf()
-    else {
-         val minValue = arr.maxOrNull()
-         arr.filter {  x -> x != arr.minOrNull() }.toIntArray()
-    }
+    else arr.filter {  x -> x != arr.minOrNull() }.toIntArray()
