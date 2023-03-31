@@ -1,24 +1,45 @@
+import java.util.*
+
 class Solution {
     fun solution(operations: Array<String>): IntArray {
-        var answer = intArrayOf()
+        var answer = intArrayOf(0, 0)
+        var map = mutableMapOf<Int, Int>()
+        var minHeap = PriorityQueue<Int>()
+        var maxHeap = PriorityQueue<Int>(Comparator{ a, b -> if( a < b) 1 else -1 })
+        var size = 0
 
-        operations.forEach {
-            when(it[0]) {
-                'I' -> {
-                    answer = answer.plus(it.substringAfter("I ").toInt())
+        operations.forEach { it ->
+            var list = it.split(" ")
+            
+            when(list[0]) {
+                "I" -> {
+                    map.put(list[1].toInt(), map.getOrDefault(list[1].toInt(), 0) + 1)
+                    minHeap.add(list[1].toInt())
+                    maxHeap.add(list[1].toInt())
+                    size++
                 }
-                else -> {
-                    if(it == "D 1") answer = deleteMax(answer)
-                    else answer = deleteMin(answer)
+                
+                "D" -> {
+                    if(list[1] == "1" && size != 0) {
+                        while(map[maxHeap.peek()]!! == 0) { maxHeap.poll() }
+                        map.put(maxHeap.peek(), map[maxHeap.peek()]!! - 1)
+                        size--
+                    } else if(list[1] == "-1" && size != 0) {
+                        while(map[minHeap.peek()]!! == 0) { minHeap.poll() }
+                        map.put(minHeap.peek(), map[minHeap.peek()]!! - 1)
+                        size--
+                    }
                 }
             }
         }
-        return intArrayOf(answer.maxOrNull()?: 0,answer.minOrNull()?: 0)
+        
+        if(size == 0) return intArrayOf(0, 0)
+        else {
+            while(map[maxHeap.peek()]!! == 0) { maxHeap.poll() }
+            while(map[minHeap.peek()]!! == 0) { minHeap.poll() }
+            return intArrayOf(maxHeap.peek(), minHeap.peek())
+        }
+        
+        return answer
     }
 }
-
-fun deleteMax(arr:IntArray): IntArray = if (arr.size == 1) intArrayOf()
-    else { arr.filter {  x -> x != arr.maxOrNull() }.toIntArray()}
-
-fun deleteMin(arr:IntArray): IntArray = if (arr.size == 1) intArrayOf()
-    else arr.filter {  x -> x != arr.minOrNull() }.toIntArray()
