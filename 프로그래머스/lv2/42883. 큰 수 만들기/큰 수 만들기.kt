@@ -1,36 +1,27 @@
-import kotlin.math.*
 import java.util.*
 
 class Solution {
     fun solution(number: String, k: Int): String {
         var answer = ""
-        var list = mutableListOf<Int>()
-        var stack = Stack<Int>()
-        number.forEach { list.add(it.toString().toInt()) }
-
-        
         var count = 0
-        for(index in 0 until list.size){ 
-            if(stack.isEmpty()) stack.add(list[index])
-            else {
-                while(stack.peek() < list[index]) {
+        var stack = Stack<Char>()
+        
+        number.forEach{ 
+            if(stack.isEmpty()) stack.add(it)
+            else if(count < k) {
+                while(stack.peek() < it && !stack.isEmpty()) {
                     stack.pop()
                     count++
-                    if(count == k) break
-                    if(stack.isEmpty()) break
+                    if(count == k || stack.isEmpty()) break;
                 }
-                if(count == k) {
-                    for(i in index until list.size) {
-                        stack.add(list[i])
-                    }
-                    break
-                }
-                else stack.add(list[index])
+                stack.add(it)
+            }else {
+                stack.add(it)
             }
         }
         
         while(!stack.isEmpty()) {
-            answer = stack.peek().toString() + answer
+            answer = stack.peek() + answer
             stack.pop()
         }
         
