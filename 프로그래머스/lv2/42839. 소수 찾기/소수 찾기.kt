@@ -1,42 +1,42 @@
 class Solution {
     
+    var list = mutableSetOf<Int>()
     lateinit var visited: BooleanArray
-    var size = 0
-    var answerSet = mutableSetOf<Int>()
     
     fun solution(numbers: String): Int {
         var answer = 0
-        size = numbers.length
-        visited = BooleanArray(size){ false }
+        visited = BooleanArray(numbers.length){ false }
         
-        dfs("", numbers)
+        dfs("", numbers.length, numbers)
         
-        return answerSet.size
+        list.forEach{
+            if(isPrime(it)) answer++
+        }
+        return answer
     }
     
-    fun dfs(number: String, numbers: String) {
-        if(number.length != 0 && isPrime(number.toInt())) {
-            answerSet.add(number.toInt()) 
-        }
-        
-        repeat(size) {
-            if(!visited[it]){
-                visited[it] = true
-                dfs(number + numbers[it], numbers)
-                visited[it] = false
-            }
-        }
-    }
-    
-    fun isPrime(number: Int): Boolean {
+    fun dfs(selected: String, size: Int, numbers: String) {
+        if(selected != "") list.add(selected.toInt())
 
-        if(number == 0 || number == 1) return false
-            
-        repeat(number - 2) {
-            if(number % (it + 2) == 0) {
-                return false
+        repeat(size) {
+            if(!visited[it]) {
+                visited[it] = true
+                dfs(selected + numbers[it], size, numbers)
+                visited[it] = false
+                
             }
-        }  
+        }
+    }
+    
+    fun isPrime(num: Int): Boolean {
+        if(num == 0 || num == 1) return false
+        else {
+            repeat(num - 2) {
+                if(num % (it + 2) == 0) return false
+            }
+        }
         return true
     }
+    
+    
 }
