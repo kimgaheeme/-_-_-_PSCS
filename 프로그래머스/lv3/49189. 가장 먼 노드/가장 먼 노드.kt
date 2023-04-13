@@ -4,45 +4,48 @@ import kotlin.math.*
 class Solution {
     fun solution(n: Int, edge: Array<IntArray>): Int {
         var answer = 0
-        var m = mutableMapOf<Int, List<Int>>()
+        var answerlist = IntArray(n + 1){ 0 } 
+        var visited = BooleanArray(n + 1) { false }
         
+        var m = mutableMapOf<Int, MutableList<Int>>()
         edge.forEach {
-            var list0 = m.getOrDefault(it[0], listOf<Int>())
-            var list1 = m.getOrDefault(it[1], listOf<Int>())
-            m.put(it[0], list0.plus(it[1]))
-            m.put(it[1], list1.plus(it[0]))
+            var list0 = m.getOrDefault(it[0], mutableListOf<Int>())
+            var list1 = m.getOrDefault(it[1], mutableListOf<Int>())
+            
+            list0.add(it[1])
+            list1.add(it[0])
+            
+            m.put(it[0], list0)
+            m.put(it[1], list1)
         }
         
-        var visited = BooleanArray(n + 1){ false }
-        var count = IntArray(n + 1){ 0 }
         var queue = LinkedList<Point>()
         queue.add(Point(1, 0))
+        visited[1] = true
         
         while(queue.size != 0) {
             var now = queue.poll()
-            var v = now.v + 1
-            visited[now.point] = true
+            var count = now.count + 1
             
-            m.getOrDefault(now.point, listOf<Int>()).forEach { p ->
-                if(!visited[p]) {
-                    queue.add(Point(p, v))
-                    count[p] = v
-                    visited[p] = true
+            m.getOrDefault(now.p, mutableListOf<Int>()).forEach {
+                if(!visited[it]) {
+                    queue.add(Point(it, count))
+                    visited[it] = true
+                    answerlist[it] = count
                 }
             }
         }
         
-        var ma = count.maxOrNull()!!
-        count.forEach {
+        var ma = answerlist.maxOrNull()!!
+        answerlist.forEach {
             if(it == ma) answer++
         }
-        
         
         return answer
     }
 }
 
 data class Point(
-    var point: Int,
-    var v: Int
+    var p: Int,
+    var count: Int = 0
 )
