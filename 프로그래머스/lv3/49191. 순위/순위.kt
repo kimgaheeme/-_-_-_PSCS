@@ -1,36 +1,48 @@
-//이김 -> 1 짐 -> -1 모름 -> 0
+import java.util.*
 
 class Solution {
+    
+    lateinit var loseLink: Array<BooleanArray>
+    lateinit var winLink: Array<BooleanArray>
+    
     fun solution(n: Int, results: Array<IntArray>): Int {
         var answer = 0
-        var link = Array(n + 1){ IntArray(n + 1){0} }
         
+        loseLink = Array(n + 1){ BooleanArray(n + 1){ false } }
+        winLink = Array(n + 1){ BooleanArray(n + 1){ false } }
         results.forEach {
-            link[it[0]][it[1]] = 1
-            link[it[1]][it[0]] = -1
+            winLink[it[0]][it[1]] = true
+            loseLink[it[1]][it[0]] = true
         }
         
-        for(k in 1..n) {
-            for(i in 1..n) {
-                for(j in 1..n) {
-                    if(i != k && j != k) {
-                        var result = link[i][k] * link[k][j]
-                        if(result == 1) {
-                            link[i][j] = link[i][k]
-                        }
-                    }
-                }
-            }
-        }
-        
-        link.forEach {
-            var count = 0
-            it.forEach{ num ->
-                if(num != 0) count++
-            }
-            if(count == n - 1) answer++
+        repeat(n) {
+            var win = getCount(it + 1, winLink, n)
+            var lose = getCount(it + 1, loseLink, n)
+            if(win + lose == n - 1 ) answer++
         }
         
         return answer
     }
 }
+
+fun getCount(start: Int, link: Array<BooleanArray>,n: Int): Int {
+    var visited = BooleanArray(n + 1) { false }
+    var count = 0
+    var queue = LinkedList<Int>()
+    queue.add(start)
+    visited[start] = true
+    
+    while(queue.size != 0) {
+        var now = queue.poll()
+        
+        link[now].forEachIndexed { index, it ->
+            if(!visited[index] && it) {
+                queue.add(index)
+                visited[index] = true
+                count++
+            }
+        }
+    }
+    
+    return count
+} 
