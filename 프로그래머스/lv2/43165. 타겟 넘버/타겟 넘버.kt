@@ -1,23 +1,19 @@
 class Solution {
     
-    var answer = 0
+    var count = 0
     
-    fun solution(numbers: IntArray, target: Int): Int {
-        
-        
+    fun solution(numbers: IntArray, target: Int): Int {        
         dfs(0, 0, target, numbers)
-        return answer
+        return count
     }
     
-    fun dfs(selected: Int, numNum: Int, target: Int, numbers: IntArray) {
+    fun dfs(depth: Int, selected: Int, target: Int, numbers: IntArray) {
+        if(depth == numbers.size) {
+            if(selected == target) count++
+            return
+        }
         
-        if(selected == numbers.size) {
-            if(target == numNum) answer++
-            return 
-        } 
-        
-        dfs(selected + 1, numNum + numbers[selected], target, numbers)
-        dfs(selected + 1, numNum - numbers[selected], target, numbers)
+        dfs(depth + 1, selected + numbers[depth], target, numbers)
+        dfs(depth + 1, selected - numbers[depth], target, numbers)
     }
 }
-
