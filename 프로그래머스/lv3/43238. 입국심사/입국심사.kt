@@ -1,32 +1,31 @@
-import kotlin.math.*;
-
 class Solution {
     fun solution(n: Int, times: IntArray): Long {
-        var answer: Long = 100000000000000000L
-        
+        var answer: Long = 0
         var start = 0L
-        var end = answer
+        var end = 1000000000000000000L
         
         while(true) {
             var center = (start + end) / 2
-            var people = getPeople(center, times)
-            if(people >= n.toLong()){
-                if(getPeople(center - 1, times) < n.toLong()) return center
+            
+            if(can(center, times, n)) {
+                if(!can(center - 1, times, n)) return center
                 end = center - 1
+            }else {
+                start = center + 1
             }
-            else start = center + 1
-        }        
+        }
+        
         
         return answer
     }
     
-    fun getPeople(time: Long, times: IntArray): Long {
-        var answer = 0L
+    fun can(time: Long, times: IntArray, n: Int): Boolean {
+        var count = 0L
         
         times.forEach {
-            answer += (time/it)
+            count += (time / it)
         }
         
-        return answer
+        return count >= n
     }
 }
