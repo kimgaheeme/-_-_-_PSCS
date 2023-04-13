@@ -1,13 +1,14 @@
 class Solution {
     fun solution(citations: IntArray): Int {
         var answer = 0
-        var list = citations.toList().sortedDescending()
-            
-        repeat(list.size) {
-            if( list.size - it <= list[list.size - it -1] )  return list.size - it
+        
+        citations.sortDescending()
+    
+        
+        for(i in citations.size downTo 1) {
+            if(citations[i - 1] >= i) return i
         }
         
-        return answer
+        return 0
     }
 }
-
