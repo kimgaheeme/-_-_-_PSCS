@@ -1,25 +1,27 @@
-import kotlin.math.*
-
 class Solution {
     
     lateinit var visited: BooleanArray
     var max = 0
     
     fun solution(k: Int, dungeons: Array<IntArray>): Int {
+        var answer: Int = -1
         visited = BooleanArray(dungeons.size){ false }
         
-        dfs(arrayOf<IntArray>(), k, dungeons)
-        
+        dfs(0, k, dungeons)
         return max
     }
     
-    fun dfs(selected: Array<IntArray>, p: Int, dungeons: Array<IntArray>){
-        if(selected.size != 0) max = listOf(max, selected.size).maxOrNull()!!
+    fun dfs(count: Int, nowK: Int, dungeons: Array<IntArray>) {
+        if(max < count) max = count
+        
+        if(count == dungeons.size || nowK <= 0) {
+            return
+        }
         
         repeat(dungeons.size) {
-            if(!visited[it] && p >= dungeons[it][0]) {
+            if(!visited[it] && dungeons[it][0] <= nowK) {
                 visited[it] = true
-                dfs(selected + dungeons[it], p - dungeons[it][1], dungeons)
+                dfs(count + 1, nowK - dungeons[it][1], dungeons)
                 visited[it] = false
             }
         }
