@@ -1,38 +1,44 @@
-import java.util.*;
+import java.util.*
 
 class Solution {
     fun solution(jobs: Array<IntArray>): Int {
-        
-        var time = 0
-        var done = 0
-        var front = 0
         var answer = 0
-        
-        var job = jobs.toList().sortedWith(compareBy({it[0]}, {it[1]}))
-        
-        var pq = PriorityQueue(Comparator<Pair<Int, Int>>{ p1, p2 ->
-            if(p1.second > p2.second) 1 else -1
+        var count = 0
+        var pq = PriorityQueue<IntArray>(Comparator{ a, b -> 
+            if(a[1] > b[1]) 1
+            else if(a[1] < b[1]) -1
+            else a[0] - b[0]
         })
         
-        while(done != job.size) {
-            while(front < job.size && job[front][0] <= time ) {
-                pq.add(Pair(job[front][0], job[front][1]))
-                front++
+        jobs.sortWith(Comparator{ a, b -> 
+            if(a[0] > b[0]) 1
+            else if(a[0] < b[0]) -1
+            else a[1] - b[1]
+        })
+        
+        var time = 0
+        var now = 0
+        while(count != jobs.size) {
+            
+            for(i in now until jobs.size) {
+                if(jobs[i][0] <= time){
+                    pq.add(jobs[i])
+                    now++
+                }
             }
             
-            if(pq.peek() == null) {
-                pq.add(Pair(job[front][0], job[front][1]))
-                front++
-                time = pq.peek().first
+            if(pq.size == 0) {
+                pq.add(jobs[now])
+                time = jobs[now][0]
+                now++
             }
             
-            var j = pq.poll()
-            time += j.second
-            answer += (time - j.first)
-            done++
+            time += pq.peek()[1]
+            answer += (time - pq.peek()[0])
+            count++
+            pq.poll()
         }
         
-        
-        return answer / job.size
+        return answer / jobs.size
     }
 }
