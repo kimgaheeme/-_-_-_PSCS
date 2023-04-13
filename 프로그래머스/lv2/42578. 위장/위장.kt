@@ -1,6 +1,13 @@
 class Solution {
-    fun solution(clothes: Array<Array<String>>): Int = clothes
-            .groupBy { it[1] }
-            .values
-            .fold(1) { total, it -> total * (it.size + 1) } - 1
+    fun solution(clothes: Array<Array<String>>): Int {
+        var answer = 1
+        
+        var m = clothes.groupBy{it[1]}.toList()
+        m.forEach {
+            answer *= (it.second.size + 1)
+        }
+    
+        
+        return answer - 1
+    }
 }
