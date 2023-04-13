@@ -1,51 +1,54 @@
-import java.util.*;
+import java.util.*
 
 class Solution {
     fun solution(begin: String, target: String, words: Array<String>): Int {
         var answer = 0
-        var word = mutableListOf(begin)
-        word.addAll(words.toList())
+        var nwords = words + begin
+        var targetAt = -1
+        nwords.forEachIndexed {index, it -> if(it == target) targetAt = index}
+        if(targetAt == -1) return 0
         
-        var targetPoint = 0
-        word.forEachIndexed{ index,it ->if(it == target) targetPoint = index }
-        if(targetPoint == 0) return 0
+
+        var link = mutableMapOf<Int, MutableList<Int>>()
         
-        var visited = BooleanArray(word.size){ false }
-        visited[0] = true
-        
-        var connectList = Array(word.size){BooleanArray(word.size){ false }}
-        
-        word.forEachIndexed { start, startString ->
-            word.forEachIndexed { end, endString ->
-                if(canChange(startString, endString)) {
-                    connectList[start][end] = true
-                    connectList[end][start] = true
+        for(i in 0 until nwords.size) {
+            for(j in i until nwords.size) {
+                if(hasConnection(nwords[i], nwords[j])){
+                    var listi = link.getOrDefault(i, mutableListOf<Int>())
+                    var listj = link.getOrDefault(j, mutableListOf<Int>())
+                    listi.add(j)
+                    listj.add(i)
+                    
+                    link.put(i, listi)
+                    link.put(j, listj)
                 }
             }
         }
         
-        var queue = LinkedList<Pair<Int, Int>>()
+        var visited = BooleanArray( nwords.size ){ false }
+        var queue = LinkedList<Point>()
+        queue.add(Point(nwords.size - 1, 0))
+        visited[nwords.size - 1] = true
         
-        queue.add(Pair(0, 0))
-        
-        while(queue.isNotEmpty()) {
-            var now = queue[0].first
-            var count = queue[0].second + 1
-            queue.removeFirst()
+        while(queue.size != 0) {
+            var now = queue.poll()
+            var count = now.count + 1
             
-            repeat(word.size) {
-                if(!visited[it] && connectList[now][it]) {
-                    if(it == targetPoint) return count
+            link.getOrDefault(now.s, mutableListOf<Int>()).forEach {
+                if(it == targetAt) return count
+                if(!visited[it]) {
+                    queue.add(Point(it, count))
                     visited[it] = true
-                    queue.add(Pair(it, count))
                 }
             }
         }
+        
         
         return 0
     }
     
-    fun canChange(s1: String, s2: String): Boolean {
+    
+    fun hasConnection(s1: String, s2: String): Boolean {
         var count = 0
         repeat(s1.length) {
             if(s1[it] != s2[it]) count++
@@ -54,3 +57,8 @@ class Solution {
         return count == 1
     }
 }
+
+data class Point (
+    var s: Int,
+    var count: Int
+)
