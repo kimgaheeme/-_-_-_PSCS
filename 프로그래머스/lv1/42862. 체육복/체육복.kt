@@ -1,32 +1,37 @@
 class Solution {
     fun solution(n: Int, lost: IntArray, reserve: IntArray): Int {
-        var answer = n - lost.size
-        var m = mutableMapOf<Int, MutableList<Int>>()
-        var re = reserve.toMutableList()
-        var lostlist = mutableListOf<Int>()
+        var newLost = mutableListOf<Int>()
+        var newReserve = BooleanArray(n + 1){ false }
+        reserve.forEach { newReserve[it] = true }
         
         lost.forEach {
-            if(re.contains(it)) {
-                answer++
-                re.removeIf{num -> num == it}
+            if(newReserve[it]) {
+                newReserve[it] = false
             } else {
-                lostlist.add(it)
+                newLost.add(it)
+            }
+        }
+        var count = n - newLost.size
+        
+        newLost.sort()
+        for(i in 0 until newLost.size) {
+            if(newLost[i] - 1 > 0 && newLost[i] - 1 <= n) {
+                if(newReserve[newLost[i] - 1]) {
+                    newReserve[newLost[i] - 1] = false
+                    count++
+                    continue
+                }
+            }
+            
+            if(newLost[i] + 1 > 0 && newLost[i] + 1 <= n) {
+                if(newReserve[newLost[i] + 1]) {
+                    newReserve[newLost[i] + 1] = false
+                    count++
+                }
             }
         }
         
-        var lo = lostlist.sorted()
         
-        lo.forEach {
-            if(re.contains(it - 1)) {
-                answer++
-            }
-            else if(re.contains(it + 1)) {
-                answer++
-                re.removeIf{num -> num == it + 1}
-            }
-        }
-        
-        
-        return answer
+        return count
     }
 }
