@@ -1,43 +1,34 @@
 import java.util.*
 
 class Solution {
-    
-    var map = mutableMapOf<Int, Int>()
-    
     fun solution(priorities: IntArray, location: Int): Int {
-        
         var answer = 0
+        var pq = PriorityQueue<Int>(Comparator{ a, b -> b - a})
+        var queue = LinkedList<Point>()
         
-        //Linked List 로 queue만들기 (0...n)
-        var queue = LinkedList<Int>()
-        repeat(priorities.size){queue.add(it)}
+        for(i in 0 until priorities.size) {
+            pq.add(priorities[i])
+            queue.add(Point(priorities[i], i))
+        }
         
-        //map만들기
-        repeat(9) { map.put(it + 1, 0 ) }
-        priorities.forEach { map.put(it, map.getOrDefault(it, 0) + 1) }
-        
-        while(queue.isNotEmpty()) {
-            var value = priorities[queue[0]]
-            if(haveLarger(value)){
-                queue.add(queue[0])
-                queue.removeFirst()
-            }
-            else if(queue[0] == location) break;
-            else {
-                map.put(value, map.getOrDefault(value, 0) - 1)
-                queue.removeFirst()
+        while(queue.size != 0) {
+            if(pq.peek() == queue[0].pri) {
+                if(queue[0].location == location) return answer + 1
+                pq.poll()
+                queue.removeAt(0)
                 answer++
+                
+            } else {
+                queue.add(queue[0])
+                queue.removeAt(0)
             }
-            
         }
         
-        return answer + 1
-    }
-    
-    fun haveLarger(start: Int): Boolean {
-        for(i in (start + 1) .. 9) {
-            if(map[i] != 0) return true
-        }
-        return false
+        return answer
     }
 }
+
+data class Point(
+    var pri: Int,
+    var location: Int
+)
