@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dd1fc3ac-ee49-48ae-9c54-15542f044601" name="Changes" comment="##### 제목 - 50자 이내로 요약!&#10;&#10;### [커밋 타입]: [작업내용]&#10;&#10;##### 본문 - 한 줄에 최대 72 글자까지만 입력하기&#10;&#10;# 1. 무엇을 수정했는지&#10;# 2. 왜 수정했는지&#10;&#10;# 꼬릿말은 아래에 작성: ex) #이슈 번호&#10;-&#10;#   [커밋 타입]  리스트&#10;#   feat      : 기능 (새로운 기능)&#10;#   fix       : 버그 (버그 수정)&#10;#   refactor  : 리팩토링&#10;#   style     : 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없음)&#10;#   docs      : 문서 (문서 추가, 수정, 삭제)&#10;#   test      : 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음)&#10;#   chore     : 기타 변경사항 (빌드 스크립트 수정 등)&#10;#   post     : 블로그 포스트 추가 (신규 포스트 작성 및 수정)&#10;# ------------------&#10;#   [체크리스트]&#10;#     제목 첫 글자는 대문자로 작성했나요?&#10;#     제목은 명령문으로 작성했나요?&#10;#     제목 끝에 마침표(.) 금지&#10;#     제목과 본문을 한 줄 띄워 분리하기&#10;#     본문에 여러줄의 메시지를 작성할 땐 &quot;-&quot;로 구분했나요?&#10;# ------------------">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ1011.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ1300.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ14499.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ14865.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ14891.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ15824.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ16120.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ16234.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ16235.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ2110.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ21608.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ2213.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BOJ23254.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/test.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Android/FCM/app/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Android/FCM/app/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Android/FCM/app/src/main/java/com/example/fcm/Screen/NavGraph.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../Android/FCM/app/src/main/java/com/example/fcm/Screen/NavGraph.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Android/FCM/app/src/main/java/com/example/fcm/util/FCM.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../Android/FCM/app/src/main/java/com/example/fcm/util/FCM.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2IU7hdAwyAjVT0H4MIL1amLLgJx" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/gimgahui/Desktop/코딩/Boo_PSCS/BOJ/BOJ2178/src/main/kotlin&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/kotlin" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="BOJ14891Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="BOJ14891Kt" />
+      <module name="BOJ2178" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.BOJ14891Kt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dd1fc3ac-ee49-48ae-9c54-15542f044601" name="Changes" comment="" />
+      <created>1670224430826</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1670224430826</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
