@@ -1,52 +1,81 @@
-import java.util.Queue
-import java.util.LinkedList
+import kotlin.math.*
 
-val way = arrayOf(Pair(1, 0), Pair(-1, 0), Pair(0, -1), Pair(0, 1))
 
+lateinit var seat : MutableList<IntArray>
+var size = 0
 fun main() {
-    var input = readLine()!!.split(" ")
-    var row = input[0].toInt()
-    var col = input[1].toInt()
+    size = readLine()!!.split(" ")[0].toInt()
+    var want = mutableMapOf<Int, List<Int>>()
+    var sequence = mutableListOf<Int>()
 
-    var roadArray = Array(row) { Array (col) { false } }
-    var visitArray = Array(row) { Array (col) { false } }
-
-
-    repeat(row) { i ->
-        var input = readLine()!!
-        input.forEachIndexed{ j, it ->
-            if(it == '1') roadArray[i][j] = true
-        }
+    repeat(size * size) {
+        var line = readLine()!!.split(" ")
+        sequence.add(line[0].toInt())
+        //println(line)
+        want.put(line[0].toInt(), line.subList(1, line.size) .map { it.toInt() })
     }
 
-    var answer = 1
+    seat = MutableList<IntArray>(size) { IntArray(size){0} }
 
-    var queue: Queue<Pair<Int, Int>> = LinkedList()
-    queue.add(Pair(0, 0))
-    visitArray[0][0] = true
+    sequence.forEach {
 
-    while(queue.isNotEmpty()) {
-        var size = queue.size
-
-        repeat(size){
-            way.forEach {
-
-                var i = queue.peek().first + it.first
-                var j = queue.peek().second + it.second
-                if(i == row - 1 && j == col - 1) {
-                    println(answer + 1)
-                    return
-                }
-                else if(i in 0 until row && j in 0 until col) {
-                    if(!visitArray[i][j] && roadArray[i][j]) {
-                        visitArray[i][j] = true
-                        queue.add(Pair(i, j))
+        var point = Pair(0, 0)
+        var wantCount = -1
+        var emptyCount = -1
+        repeat(size){x ->
+            repeat(size) {y ->
+                if(seat[x][y] == 0) {
+                    var count = countWant(want[it]?: emptyList(), x, y)
+                    var empty = countEmpty(x, y)
+                    if(count > wantCount) {
+                        point = Pair(x, y)
+                        wantCount = count
+                        emptyCount = empty
+                    } else if(count == wantCount && empty > emptyCount) {
+                        point = Pair(x, y)
+                        wantCount = count
+                        emptyCount = empty
                     }
+
                 }
             }
-            queue.poll()
+
         }
-        answer++
+        seat[point.first][point.second] = it
     }
 
+    var answer = 0
+
+    seat.forEachIndexed{ x , list->
+        list.forEachIndexed { y , it ->
+            answer += getSatisfy(countWant(want[it]!!, x, y))
+        }
+    }
+    print(answer)
+}
+
+var dx = listOf<Int>(-1, 0, 1, 0)
+var dy = listOf<Int>(0, 1, 0, -1)
+
+fun countWant(want: List<Int>, seatX: Int, seatY: Int): Int {
+    var answer = 0
+
+    repeat(4) {
+        var nowX = seatX + dx[it]
+        var nowY = seatY + dy[it]
+        if(nowX in 0 until size && nowY in 0 until size) {
+            if(want.contains(seat[nowX][nowY])) answer ++
+        }
+    }
+
+    return answer
+}
+
+fun countEmpty(seatX: Int, seatY: Int): Int {
+    return countWant(emptyList(), seatX, seatY)
+}
+
+fun getSatisfy(i: Int): Int {
+    return if(i == 0) 0
+    else (10.0).pow(i - 1).toInt()
 }
