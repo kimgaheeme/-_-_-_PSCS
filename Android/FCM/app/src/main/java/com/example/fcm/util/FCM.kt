@@ -42,6 +42,7 @@ class FCM : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Log.d("ㅁㄴㅇㄹ","Token : ${token}")
+        //현재는 임시 방편으로 토큰생성될 때 채널 생성
         createChannel()
     }
 

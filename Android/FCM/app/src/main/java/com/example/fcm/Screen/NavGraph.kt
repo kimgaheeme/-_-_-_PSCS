@@ -27,13 +27,9 @@ fun NavGraphBuilder.screen1Graph(navController: NavController) {
         composable(Screen.SCREEN3) { Screen3(navController) }
         //graph는 안에 있어야 하나 밖에 있어야 하나... 둘 다 작동 되긴 함
         screen2Graph(navController)
+        screen3Graph(navController)
     }
-    composable(
-        route = "${Screen.SCREEN_WITH_ID}/{${Id.ID}}",
-        deepLinks = listOf(navDeepLink { uriPattern = "https://fcm/{${Id.ID}}" })
-    ) { backStackEntry ->
-        ScreenId(navController = navController, id = backStackEntry.arguments!!.getString("id")!!)
-    }
+
 }
 
 
@@ -41,6 +37,16 @@ fun NavGraphBuilder.screen2Graph(navController: NavController) {
     navigation(startDestination = Screen.SCREEN2, route=GRAPH.GRAPH2) {
         composable(Screen.SCREEN2) { Screen2(navController) }
         composable(Screen.SCREEN4) { Screen4(navController) }
-        composable(Screen.SCREEN5) { Screen5(navController) }
     }
+
+}
+
+fun NavGraphBuilder.screen3Graph(navController: NavController) {
+    composable(
+        route = "${Screen.SCREEN_WITH_ID}/{${Id.ID}}",
+        deepLinks = listOf(navDeepLink { uriPattern = "https://fcm/{${Id.ID}}" })
+    ) { backStackEntry ->
+        ScreenId(navController = navController, id = backStackEntry.arguments!!.getString("id")!!)
+    }
+    composable(Screen.SCREEN5) { Screen5(navController) }
 }
